@@ -184,3 +184,7 @@ hs_err_pid*
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,visualstudiocode
+
+src/main/resources/properties/databaseCredentials.properties
+
+src/main/resources/properties/jwt.properties

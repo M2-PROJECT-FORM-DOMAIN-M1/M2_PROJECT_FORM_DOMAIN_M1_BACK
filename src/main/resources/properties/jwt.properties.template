@@ -1,0 +1,2 @@
+app.jwtSecret= /* FAUT LE SETUP */
+app.jwtExpirationInMs = 604800000
