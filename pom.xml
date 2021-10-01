@@ -75,6 +75,7 @@
     </dependencies>
 
     <build>
+        <finalName>deployment</finalName>
         <plugins>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
