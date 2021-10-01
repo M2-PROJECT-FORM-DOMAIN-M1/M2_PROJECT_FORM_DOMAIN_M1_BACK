@@ -16,7 +16,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <start-class>com.project.M2ProjectFormDomainM1BackApplication</start-class>
-        <java.version>11.0.12</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
