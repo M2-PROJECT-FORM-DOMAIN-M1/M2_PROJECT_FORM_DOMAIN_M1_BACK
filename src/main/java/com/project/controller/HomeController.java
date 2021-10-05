@@ -12,7 +12,7 @@ public class HomeController extends AbstractController{
 
     @GetMapping("/")
     public ResponseEntity<?> test(){
-        return  ResponseEntity.ok("az");
+        return  ResponseEntity.ok("toto");
     }
 
 }
