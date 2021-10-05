@@ -23,5 +23,12 @@ jobs:
         with:
           java-version: 1.16
       - name: Maven Test
+        env:
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.SPRING_DATASOURCE_DRIVER_CLASS_NAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+          APP_JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
+          APP_JWT_EXPIRATION_IN_MS: ${{ secrets.APP_JWT_EXPIRATION_IN_MS }}
         run: mvn test -P dev
 
