@@ -32,6 +32,7 @@ jobs:
         run: mvn -B clean verify -DskipTests
 
   deploy:
+    needs: test
     name: deploy-pi
     runs-on: ubuntu-latest
 
