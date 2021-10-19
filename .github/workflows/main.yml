@@ -50,5 +50,5 @@ jobs:
           key: ${{ secrets.SSH_KEYS }}
           port: 22
           script: |
-            cd /home/pi/Desktop/M2_Project_Form_Domain_M1
+            cd /home/pi/Desktop/M2_Project_Form_Domain_M1/M2_PROJECT_FORM_DOMAIN_M1_BACK
             ./deploy.sh
