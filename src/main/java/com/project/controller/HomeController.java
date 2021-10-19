@@ -17,14 +17,8 @@ public class HomeController extends AbstractController{
 
     @PostMapping("/getCode")
     public ResponseEntity<?> test(@RequestBody HomeRequest codeRequest){
-        System.out.println(codeRequest.getPassword());
-        return new ResponseEntity<>(new HomeResponse(true, "Code récupéré"),HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> toto() {
-        System.out.println("bonjour");
-        return new ResponseEntity<>(new HomeResponse(true,"test validé"),HttpStatus.ACCEPTED);
+        System.out.println(codeRequest.getCode());
+        return new ResponseEntity<>(new HomeResponse(true, "Code récupéré: " + codeRequest.getCode()),HttpStatus.ACCEPTED);
     }
 
 
