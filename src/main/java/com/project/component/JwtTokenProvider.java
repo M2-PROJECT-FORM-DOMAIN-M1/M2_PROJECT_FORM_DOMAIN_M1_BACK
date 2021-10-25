@@ -1,6 +1,7 @@
 package com.project.component;
 
 import com.project.database.models.users.Users;
+import com.project.models.UserPrincipalFront;
 import io.jsonwebtoken.*;
 import org.apache.catalina.User;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
 
-        Users userPrincipalFront = (Users) authentication.getPrincipal();
+        UserPrincipalFront userPrincipalFront = (UserPrincipalFront) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);

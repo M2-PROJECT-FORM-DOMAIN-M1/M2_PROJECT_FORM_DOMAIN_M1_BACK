@@ -2,6 +2,8 @@ package com.project.configuration;
 
 
 import com.project.component.JwtAuthenticationEntryPoint;
+import com.project.filter.JwtAuthenticationFilter;
+import com.project.service.UsersSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,9 +70,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
-                .permitAll()
-                .antMatchers("/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                .antMatchers("/api/auth/signin")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

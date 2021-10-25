@@ -2,6 +2,7 @@ package com.project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,9 +40,7 @@ public class UserPrincipalFront implements UserDetails {
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 
 
-        for(Role operation :  user.getAllowedOperations()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(operation.getName().name()));
-        }
+
 
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getAuthority()));
 
