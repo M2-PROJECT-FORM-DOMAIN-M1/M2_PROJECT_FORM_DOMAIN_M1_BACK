@@ -6,6 +6,7 @@ import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.dto.requests.connection.LoginRequest;
 import com.project.dto.requests.home.HomeRequest;
+import com.project.dto.responses.connection.IsAuthentificatedResponse;
 import com.project.dto.responses.connection.JwtAuthenticationResponse;
 import com.project.dto.responses.home.HomeResponse;
 import com.project.models.UserPrincipalFront;
@@ -73,9 +74,19 @@ public class AuthController extends AbstractController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,users));
 
 
+    }
 
+    @PostMapping("/auth/isConnected")
+    public ResponseEntity<?> authenticateUser(){
+        Authentication tes = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipalFront currentPrincipalName =(UserPrincipalFront) tes.getPrincipal();
 
+        Users users =  usersRepository.findById(currentPrincipalName.getId()).
+                orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with id : " + currentPrincipalName.getId()));
 
+        users.setPassword("");
+        return ResponseEntity.ok(new IsAuthentificatedResponse(true,"user is connected",true,users));
     }
 
 
