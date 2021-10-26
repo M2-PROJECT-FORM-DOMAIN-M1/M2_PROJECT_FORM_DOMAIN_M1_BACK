@@ -1,6 +1,5 @@
 package com.project.configuration;
 
-
 import com.project.component.JwtAuthenticationEntryPoint;
 import com.project.filter.JwtAuthenticationFilter;
 import com.project.service.UsersSecurityService;
@@ -70,7 +69,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/signin")
+                .antMatchers("/api/auth/signin","/")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
