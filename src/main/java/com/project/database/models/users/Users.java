@@ -2,6 +2,7 @@ package com.project.database.models.users;
 
 import com.project.database.models.form.Form;
 import com.project.database.models.role.Role;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -48,7 +49,7 @@ public class Users implements GrantedAuthority {
     @Size(max = 100)
     private String password;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Form> forms;
 
     @OneToOne
@@ -146,4 +147,11 @@ public class Users implements GrantedAuthority {
         this.updatedAt = updatedAt;
     }
 
+    public List<Form> getForms() {
+        return forms;
+    }
+
+    public void setForms(List<Form> forms) {
+        this.forms = forms;
+    }
 }

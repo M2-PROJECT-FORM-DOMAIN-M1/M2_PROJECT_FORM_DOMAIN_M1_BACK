@@ -1,7 +1,8 @@
-package com.project.component;
+package com.project.database.repository;
 
 
-
+import com.project.configuration.CoreConfig;
+import com.project.configuration.WebConfig;
 import com.project.database.enums.FormType;
 import com.project.database.enums.RoleNameEnum;
 import com.project.database.models.form.Form;
@@ -12,21 +13,27 @@ import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.question.IQuestionRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
-
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
-public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
-
-    boolean alreadySetup = true;
+@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
+public class RepositoryAbstractTestCase {
 
     @Autowired
     IQuestionRepository questionRepository;
@@ -43,10 +50,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        if (alreadySetup)
-            return;
+    @Before
+    public void insertData(){
+
+        roleRepository.deleteAll();
+        usersRepository.deleteAll();
 
 
 
@@ -79,6 +87,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         admin.setForms(Arrays.asList(form));
 
+
         usersRepository.save(admin);
 
         usersRepository.save(new Users("superAdmin",
@@ -88,5 +97,33 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 roleList.get(1)
         ));
 
+        usersRepository.save(new Users("1",
+                "1",
+                "1@1.1",
+                passwordEncoder.encode("1"),
+                roleList.get(0)
+        ));
+
+        usersRepository.save(new Users("1",
+                "4",
+                "test1@test1.test1",
+                passwordEncoder.encode("1"),
+                roleList.get(0)
+        ));
+
+        usersRepository.save(new Users("2",
+                "2",
+                "2@2.2",
+                passwordEncoder.encode("superAdmin"),
+                roleList.get(1)
+        ));
+        usersRepository.save(new Users("3",
+                "3",
+                "3@3.3",
+                passwordEncoder.encode("superAdmin"),
+                roleList.get(1)
+        ));
+
     }
+
 }

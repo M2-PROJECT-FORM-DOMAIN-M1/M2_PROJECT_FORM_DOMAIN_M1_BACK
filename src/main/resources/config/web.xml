@@ -12,7 +12,7 @@
         <property name="locations">
             <list>
                 <value>classpath:/properties/jwt.properties</value>
-                <value>classpath:/properties/databaseCredentials.properties</value>
+
             </list>
         </property>
     </bean>

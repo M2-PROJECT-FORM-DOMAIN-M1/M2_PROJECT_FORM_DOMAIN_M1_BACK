@@ -1,8 +1,6 @@
 package com.project.filter;
 
-
 import com.project.component.JwtTokenProvider;
-import com.project.database.models.users.Users;
 import com.project.service.UsersSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwtFromRequest(request);
 
+
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+
+                response.setHeader("Expired-Token", "false");
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
 
                 UserDetails  userDetails = customUserDetailsService.loadUserById(userId);
@@ -43,10 +44,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            }else{
+                response.setHeader("Expired-Token", "true");
             }
         } catch (Exception ex) {
+
             logger.error("Could not set user authentication in security context", ex);
         }
+
 
         filterChain.doFilter(request, response);
     }
