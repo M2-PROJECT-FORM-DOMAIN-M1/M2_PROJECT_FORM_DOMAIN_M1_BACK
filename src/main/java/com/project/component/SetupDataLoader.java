@@ -1,7 +1,6 @@
 package com.project.component;
 
 
-
 import com.project.database.enums.FormType;
 import com.project.database.enums.RoleNameEnum;
 import com.project.database.models.form.Form;
@@ -12,7 +11,6 @@ import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.question.IQuestionRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -26,7 +24,7 @@ import java.util.List;
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = true;
+    boolean alreadySetup = false;
 
     @Autowired
     IQuestionRepository questionRepository;
@@ -55,14 +53,25 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 "Quel est ton prénom",
                 FormType.CHECKBOX,
                 null
+
+        ));
+
+        questions.add(new Question("c;b;a",
+                "Where is the way",
+                FormType.CHECKBOX,
+                null
+
         ));
 
 
         questionRepository.saveAll(questions);
 
-        Form form = new Form("Ton prénom",questions);
+        Form form = new Form("Ton prénom", List.of(questions.get(0)));
+        form.setLock(false);
         formRepository.save(form);
 
+        Form form2 = new Form("Ton prénom2", List.of(questions.get(1)));
+        formRepository.save(form2);
 
         List<Role> roleList = new ArrayList<>();
         roleList.add(new Role(RoleNameEnum.ROLE_ADMIN));
@@ -77,7 +86,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 roleList.get(0)
         );
 
-        admin.setForms(Arrays.asList(form));
+        admin.setForms(Arrays.asList(form,form2));
 
         usersRepository.save(admin);
 

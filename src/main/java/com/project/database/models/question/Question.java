@@ -2,13 +2,18 @@ package com.project.database.models.question;
 
 import com.project.database.enums.FormType;
 import com.project.database.models.answers.Answers;
+import com.project.database.models.form.Form;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "Question", indexes = {
+        @Index(name = "idx_question_form_id", columnList = "form_id")
+})
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +28,13 @@ public class Question {
     @Size(max = 40)
     private FormType formType;
 
-    @OneToMany(cascade= {CascadeType.REMOVE},fetch = FetchType.LAZY)
-    private List<Answers> answers;
+    @ManyToOne
+    @JoinColumn
+    private Form form;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn
+    private List<Answers> answers  = new ArrayList<>();
 
     public Question (String allPossibleAnswers, String question, FormType formType, List<Answers> answers) {
         this.allPossibleAnswers = allPossibleAnswers;
@@ -34,8 +44,18 @@ public class Question {
     }
 
 
+
     public Question() {
 
+    }
+
+
+    public Form getForm() {
+        return form;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
     }
 
     public Long getId() {

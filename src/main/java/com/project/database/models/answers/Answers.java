@@ -1,9 +1,8 @@
 package com.project.database.models.answers;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.project.database.models.question.Question;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -21,6 +20,10 @@ public class Answers {
     @Size(max = 80)
     private String answer;
 
+    @ManyToOne
+    @JoinColumn
+    private Question question;
+
     public Answers(Long id, String email, String answer) {
         this.id = id;
         this.email = email;
@@ -29,6 +32,14 @@ public class Answers {
 
     public Answers() {
 
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public Long getId() {
