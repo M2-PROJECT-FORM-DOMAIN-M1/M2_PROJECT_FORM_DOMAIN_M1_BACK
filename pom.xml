@@ -17,6 +17,8 @@
     <properties>
         <start-class>com.project.M2ProjectFormDomainM1BackApplication</start-class>
         <java.version>11</java.version>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
