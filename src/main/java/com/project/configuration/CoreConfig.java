@@ -25,6 +25,9 @@ public class CoreConfig {
     @Bean
     public DataSource dataSource() {
 
+        System.out.println("driver " + env.getProperty("jdbc.driverClassName"));
+
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
