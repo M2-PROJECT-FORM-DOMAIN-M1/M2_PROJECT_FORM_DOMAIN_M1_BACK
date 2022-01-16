@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true
 )
-public class SecurityConfig  extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UsersSecurityService customUserDetailsService;
 
@@ -57,34 +57,29 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .cors()
-                    .and()
-                    .csrf()
-                    .disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                    .authorizeRequests().antMatchers("/api/public/**","/api/auth/signin")
-                    .permitAll()
-                    .antMatchers("/api/**")
-                    .authenticated()
-                    .antMatchers("/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated();
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/api/public/**", "/api/auth/signin")
+                .permitAll()
+                .antMatchers("/api/**")
+                .authenticated()
+                .antMatchers("/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
-            // Add our custom JWT security filter
-            http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        }
-
+        // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
     }
 }
