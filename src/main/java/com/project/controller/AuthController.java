@@ -43,11 +43,6 @@ public class AuthController extends AbstractController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    @GetMapping("/test")
-    public ResponseEntity test() {
-        return ResponseEntity.ok("lol");
-    }
-
 
     @PostMapping("/auth/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
