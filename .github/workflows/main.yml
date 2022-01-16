@@ -31,6 +31,12 @@ jobs:
           SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
           APP_JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
           APP_JWT_EXPIRATION_IN_MS: ${{ secrets.APP_JWT_EXPIRATION_IN_MS }}
+          SPRING_TEST_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.PRING_TEST_DATASOURCE_DRIVER_CLASS_NAME }}
+          SPRING_TEST_DATASOURCE_PASSWORD: ${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}
+          SPRING_TEST_DATASOURCE: ${{ secrets.SPRING_TEST_DATASOURCE }}
+          SPRING_TEST_DATASOURCE_URL: ${{ secrets. SPRING_TEST_DATASOURCE_URL }}
+          SPRING_TEST_DATASOURCE_USERNAME: ${{ secrets.SPRING_TEST_DATASOURCE_USERNAME }}
+
         run: mvn test -P dev
 
   deploy:
@@ -52,5 +58,5 @@ jobs:
           key: ${{ secrets.SSH_KEYS }}
           port: 22
           script: |
-            cd /home/pi/Desktop/M2_Project_Form_Domain_M1/
+            cd /home/pi/M2-PROJECT-FORM-DOMAIN-M1/
             ./deploy.sh
