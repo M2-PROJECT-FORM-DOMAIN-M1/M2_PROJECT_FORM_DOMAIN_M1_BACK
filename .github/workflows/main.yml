@@ -55,7 +55,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEYS }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           script: |
             cd /home/pi/M2-PROJECT-FORM-DOMAIN-M1/
