@@ -1,9 +1,7 @@
 package com.project.component;
 
-import com.project.database.models.users.Users;
 import com.project.models.UserPrincipalFront;
 import io.jsonwebtoken.*;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
