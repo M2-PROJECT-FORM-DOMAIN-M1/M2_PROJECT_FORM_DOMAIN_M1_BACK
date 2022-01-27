@@ -48,7 +48,7 @@ public class Users implements GrantedAuthority {
     @Size(max = 100)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.ALL })
     @JoinColumn
     private List<Form> forms;
 

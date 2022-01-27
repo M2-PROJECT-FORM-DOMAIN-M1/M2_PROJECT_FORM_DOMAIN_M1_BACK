@@ -1,31 +1,26 @@
 package com.project.database.repository;
 
 
-import com.project.configuration.CoreConfig;
-import com.project.configuration.WebConfig;
-import com.project.database.enums.FormType;
+
+import com.project.database.enums.QuestionTypeEnum;
 import com.project.database.enums.RoleNameEnum;
 import com.project.database.models.form.Form;
+import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.question.Question;
 import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
 import com.project.database.repository.form.IFormRepository;
+import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.question.IQuestionRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
+import com.project.service.GenerateSaltStringService;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,20 +30,29 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RepositoryAbstractTestCase {
 
-    @Autowired
-    IQuestionRepository questionRepository;
+    protected GenerateSaltStringService generateSaltString;
 
-    @Autowired
-    IFormRepository formRepository;
+    protected IQuestionRepository questionRepository;
 
-    @Autowired
-    IRoleRepository roleRepository;
+    protected IFormRepository formRepository;
 
-    @Autowired
-    IUsersRepository usersRepository;
+    protected IRoleRepository roleRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    protected IUsersRepository usersRepository;
+
+    protected IQuestionTypeRepository formTypeRepository;
+
+    protected PasswordEncoder passwordEncoder;
+
+    public RepositoryAbstractTestCase(GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IUsersRepository usersRepository, IQuestionTypeRepository formTypeRepository, PasswordEncoder passwordEncoder) {
+        this.generateSaltString = generateSaltString;
+        this.questionRepository = questionRepository;
+        this.formRepository = formRepository;
+        this.roleRepository = roleRepository;
+        this.usersRepository = usersRepository;
+        this.formTypeRepository = formTypeRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Before
     public void insertData(){
@@ -56,19 +60,21 @@ public class RepositoryAbstractTestCase {
         roleRepository.deleteAll();
         usersRepository.deleteAll();
 
-
+        List<QuestionType> questionTypes = new ArrayList<>();
+        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX,"CheckBox"));
+        formTypeRepository.saveAll(questionTypes);
 
         List<Question> questions = new ArrayList<>();
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
-                FormType.CHECKBOX,
+                questionTypes.get(0),
                 null
         ));
 
 
         questionRepository.saveAll(questions);
 
-        Form form = new Form("Ton prénom",questions);
+        Form form = new Form("Ton prénom",generateSaltString.getSaltString(5),questions);
         formRepository.save(form);
 
 

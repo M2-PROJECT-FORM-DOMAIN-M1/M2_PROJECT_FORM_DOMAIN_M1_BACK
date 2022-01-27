@@ -1,19 +1,16 @@
 package com.project.database.models.question;
 
-import com.project.database.enums.FormType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.database.models.answers.Answers;
 import com.project.database.models.form.Form;
+import com.project.database.models.questionType.QuestionType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Question", indexes = {
-        @Index(name = "idx_question_form_id", columnList = "form_id")
-})
+@Table
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,23 +20,21 @@ public class Question {
 
     private String question;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    @Size(max = 40)
-    private FormType formType;
+    @OneToOne
+    @JsonProperty(required = true)
+    private QuestionType questionType;
 
     @ManyToOne
-    @JoinColumn
     private Form form;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval=true)
     @JoinColumn
     private List<Answers> answers  = new ArrayList<>();
 
-    public Question (String allPossibleAnswers, String question, FormType formType, List<Answers> answers) {
+    public Question (String allPossibleAnswers, String question, QuestionType questionType, List<Answers> answers) {
         this.allPossibleAnswers = allPossibleAnswers;
         this.question = question;
-        this.formType = formType;
+        this.questionType = questionType;
         this.answers = answers;
     }
 
@@ -82,12 +77,12 @@ public class Question {
         this.question = question;
     }
 
-    public FormType getFormType() {
-        return formType;
+    public QuestionType getFormType() {
+        return questionType;
     }
 
-    public void setFormType(FormType formType) {
-        this.formType = formType;
+    public void setFormType(QuestionType questionType) {
+        this.questionType = questionType;
     }
 
     public List<Answers> getAnswers() {

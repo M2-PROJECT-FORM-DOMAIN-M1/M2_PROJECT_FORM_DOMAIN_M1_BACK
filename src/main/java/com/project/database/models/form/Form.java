@@ -14,11 +14,13 @@ public class Form {
 
     private String name;
 
+    @Column(unique = true, length = 5)
+    private String code;
 
     @Column(name = "isLock", nullable = false)
     private Boolean isLock = true;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.ALL },orphanRemoval=true)
     @JoinColumn
     private List<Question> questions = new ArrayList<>();
 
@@ -30,9 +32,10 @@ public class Form {
         this.questions = questions;
     }
 
-    public Form(String name, List<Question> questions) {
+    public Form(String name,String code ,List<Question> questions) {
         this.name = name;
         this.questions = questions;
+        this.code = code;
     }
 
 
@@ -62,5 +65,13 @@ public class Form {
 
     public void setLock(Boolean lock) {
         isLock = lock;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

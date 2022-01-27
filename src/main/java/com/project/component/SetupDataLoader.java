@@ -1,17 +1,19 @@
 package com.project.component;
 
 
-import com.project.database.enums.FormType;
+import com.project.database.enums.QuestionTypeEnum;
 import com.project.database.enums.RoleNameEnum;
 import com.project.database.models.form.Form;
 import com.project.database.models.question.Question;
+import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
 import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.question.IQuestionRepository;
+import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.service.GenerateSaltStringService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,20 +28,30 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     boolean alreadySetup = false;
 
-    @Autowired
+    GenerateSaltStringService generateSaltString;
+
     IQuestionRepository questionRepository;
 
-    @Autowired
     IFormRepository formRepository;
 
-    @Autowired
     IRoleRepository roleRepository;
 
-    @Autowired
+    IQuestionTypeRepository formTypeRepository;
+
     IUsersRepository usersRepository;
 
-    @Autowired
     PasswordEncoder passwordEncoder;
+
+    public SetupDataLoader( GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IQuestionTypeRepository formTypeRepository, IUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+        this.alreadySetup = alreadySetup;
+        this.generateSaltString = generateSaltString;
+        this.questionRepository = questionRepository;
+        this.formRepository = formRepository;
+        this.roleRepository = roleRepository;
+        this.formTypeRepository = formTypeRepository;
+        this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -47,31 +59,46 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             return;
 
 
+        List<QuestionType> questionTypes = new ArrayList<>();
+        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX, "CheckBox"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.RADIO, "Radio"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.TEXTINPUT, "Text input"));
+        formTypeRepository.saveAll(questionTypes);
+
 
         List<Question> questions = new ArrayList<>();
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
-                FormType.CHECKBOX,
+                questionTypes.get(0),
                 null
 
         ));
 
         questions.add(new Question("c;b;a",
                 "Where is the way",
-                FormType.CHECKBOX,
+                questionTypes.get(1),
+                null
+
+        ));
+
+        questions.add(new Question("g;zeze;aazazaz",
+                "Where is the second way",
+                questionTypes.get(2),
+                null
+
+        ));
+
+        questions.add(new Question("g;zeze;aazazaz",
+                "az",
+                questionTypes.get(0),
                 null
 
         ));
 
 
-        questionRepository.saveAll(questions);
-
-        Form form = new Form("Ton prénom", List.of(questions.get(0)));
+        Form form = new Form("Ton prénom", generateSaltString.getSaltString(5), new ArrayList<>(questions));
         form.setLock(false);
-        formRepository.save(form);
 
-        Form form2 = new Form("Ton prénom2", List.of(questions.get(1)));
-        formRepository.save(form2);
 
         List<Role> roleList = new ArrayList<>();
         roleList.add(new Role(RoleNameEnum.ROLE_ADMIN));
@@ -86,7 +113,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 roleList.get(0)
         );
 
-        admin.setForms(Arrays.asList(form,form2));
+        admin.setForms(Arrays.asList(form));
 
         usersRepository.save(admin);
 
@@ -96,6 +123,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 passwordEncoder.encode("superAdmin"),
                 roleList.get(1)
         ));
+
 
     }
 }
