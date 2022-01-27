@@ -2,7 +2,7 @@ package com.project.dto.requests.superAdmin;
 
 import javax.validation.constraints.NotNull;
 
-public class SuperAdminDeleteForm {
+public class SuperAdminDeleteFormRequest {
 
     @NotNull
     private long id;

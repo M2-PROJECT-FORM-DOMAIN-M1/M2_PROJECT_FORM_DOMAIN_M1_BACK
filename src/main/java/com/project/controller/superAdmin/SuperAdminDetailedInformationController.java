@@ -7,7 +7,7 @@ import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.dto.requests.common.IdRequest;
 import com.project.dto.requests.superAdmin.SuperAdminAdminLockRequest;
-import com.project.dto.requests.superAdmin.SuperAdminDeleteForm;
+import com.project.dto.requests.superAdmin.SuperAdminDeleteFormRequest;
 import com.project.dto.responses.Response;
 import com.project.dto.responses.superAdmin.SuperAdminAdminGetAdminResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +41,11 @@ public class SuperAdminDetailedInformationController extends AbstractController 
     }
 
     @PostMapping("/superAdmin/admin/deleteForm")
-    public ResponseEntity deleteForm(@Valid @RequestBody SuperAdminDeleteForm superAdminDeleteForm, BindingResult bindingResult){
+    public ResponseEntity deleteForm(@Valid @RequestBody SuperAdminDeleteFormRequest superAdminDeleteFormRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return ResponseEntity.status(298).body(new Response(false,""));
         }
-        Form form = formRepository.findById(superAdminDeleteForm.getId()).orElseThrow();
+        Form form = formRepository.findById(superAdminDeleteFormRequest.getId()).orElseThrow();
         formRepository.delete(form);
 
         return ResponseEntity.status(200).body(new Response(true,""));

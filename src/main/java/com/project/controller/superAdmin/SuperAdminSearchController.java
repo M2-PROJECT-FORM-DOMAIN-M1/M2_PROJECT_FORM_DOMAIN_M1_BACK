@@ -25,7 +25,7 @@ public class SuperAdminSearchController extends AbstractController {
     IUsersRepository iUsersRepository;
 
 
-    @PostMapping("/superAdminSearch/autoCompleteUsers")
+    @PostMapping("/superAdmin/superAdminSearch/autoCompleteUsers")
     public ResponseEntity getAutoCompleteAdmin(@Valid @RequestBody SuperAdminSearchAutoCompleteAdminRequest superAdminSearchAutoCompleteAdminRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return ResponseEntity.status(298).body(new Response(false,""));
