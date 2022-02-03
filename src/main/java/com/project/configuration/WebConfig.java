@@ -1,5 +1,6 @@
 package com.project.configuration;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ImportResource({"classpath:/config/web.xml"})
+@ComponentScan("com.project.controller")
 public class WebConfig implements WebMvcConfigurer {
 
     private final long MAX_AGE_SECS = 3600;

@@ -1,5 +1,6 @@
 package com.project.database.models.users;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.database.models.form.Form;
 import com.project.database.models.role.Role;
 import org.hibernate.annotations.NaturalId;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,9 +50,9 @@ public class Users implements GrantedAuthority {
     @Size(max = 100)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.ALL })
-    @JoinColumn
-    private List<Form> forms;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "users")
+    @JsonManagedReference
+    private List<Form> forms=new ArrayList<>();
 
     @OneToOne
     private Role role;

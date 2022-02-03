@@ -1,7 +1,6 @@
 package com.project.database.repository.user;
 
 import com.project.database.enums.RoleNameEnum;
-import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
 import com.project.database.repository.RepositoryAbstractTestCase;
 import com.project.database.repository.form.IFormRepository;
@@ -11,25 +10,20 @@ import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
 import io.jsonwebtoken.lang.Assert;
-import org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public class RepositoryUserTestCase extends RepositoryAbstractTestCase {
 
-
+    @Autowired
     IUsersRepository usersRepository;
 
 
 
-    public RepositoryUserTestCase(GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IUsersRepository usersRepository, IQuestionTypeRepository formTypeRepository, PasswordEncoder passwordEncoder) {
-        super(generateSaltString, questionRepository, formRepository, roleRepository, usersRepository, formTypeRepository, passwordEncoder);
-    }
 
     @Test
     public void findByEmailOrNameOrUsername(){
