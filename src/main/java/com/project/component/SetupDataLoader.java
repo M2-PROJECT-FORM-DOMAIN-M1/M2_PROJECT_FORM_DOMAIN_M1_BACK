@@ -8,6 +8,7 @@ import com.project.database.models.question.Question;
 import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
+import com.project.database.repository.answers.IAnswersRepository;
 import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.question.IQuestionRepository;
 import com.project.database.repository.questionType.IQuestionTypeRepository;
@@ -38,11 +39,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     IQuestionTypeRepository formTypeRepository;
 
+    IAnswersRepository answersRepository;
+
     IUsersRepository usersRepository;
 
     PasswordEncoder passwordEncoder;
 
-    public SetupDataLoader( GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IQuestionTypeRepository formTypeRepository, IUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public SetupDataLoader(IAnswersRepository answersRepository, GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IQuestionTypeRepository formTypeRepository, IUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.alreadySetup = alreadySetup;
         this.generateSaltString = generateSaltString;
         this.questionRepository = questionRepository;
@@ -51,6 +54,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         this.formTypeRepository = formTypeRepository;
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.answersRepository = answersRepository;
     }
 
     @Override
@@ -66,40 +70,44 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         formTypeRepository.saveAll(questionTypes);
 
 
+
         List<Question> questions = new ArrayList<>();
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
-                null
+                null,0L
 
         ));
+
 
         questions.add(new Question("c;b;a",
                 "Where is the way",
                 questionTypes.get(1),
-                null
+                null,5L
 
         ));
 
         questions.add(new Question("g;zeze;aazazaz",
                 "Where is the second way",
                 questionTypes.get(2),
-                null
+                null,0L
 
         ));
 
         questions.add(new Question("g;zeze;aazazaz",
                 "az",
                 questionTypes.get(0),
-                null
+                null,0L
 
         ));
 
 
-        Form form = new Form("Ton prénom", generateSaltString.getSaltString(5), new ArrayList<>(questions));
+        Form form = new Form("Ton prénom", "aaaaa", new ArrayList<>(questions));
         form.setLock(false);
 
-
+        for (Question question : questions) {
+            question.setForm(form);
+        }
         List<Role> roleList = new ArrayList<>();
         roleList.add(new Role(RoleNameEnum.ROLE_ADMIN));
         roleList.add(new Role(RoleNameEnum.ROLE_SUPER_ADMIN));
@@ -112,7 +120,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 passwordEncoder.encode("admin"),
                 roleList.get(0)
         );
-
+        form.setUsers(admin);
         admin.setForms(Arrays.asList(form));
 
         usersRepository.save(admin);

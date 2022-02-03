@@ -94,9 +94,9 @@ public class GetFormByIDResponse extends Response {
 
 
                 DataQuestionType dataQuestionType = new DataQuestionType(
-                        question.getFormType().getId(),
-                        question.getFormType().getQuestionTypeRenderText(),
-                        question.getFormType().getQuestionType()
+                        question.getQuestionType().getId(),
+                        question.getQuestionType().getQuestionTypeRenderText(),
+                        question.getQuestionType().getQuestionType()
                 );
 
                 questions.add(
@@ -104,7 +104,8 @@ public class GetFormByIDResponse extends Response {
                                 question.getId(),
                                 question.getAllPossibleAnswers(),
                                 question.getQuestion(),
-                                dataQuestionType
+                                dataQuestionType,
+                                question.getEcts()
                         )
                 );
             }
@@ -115,14 +116,16 @@ public class GetFormByIDResponse extends Response {
         private Long id;
         private String allPossibleAnswers;
         private String question;
+        private Long ects;
         private DataQuestionType questionType;
 
 
-        public DataQuestion(Long id,String allPossibleAnswers, String question, DataQuestionType questionType) {
+        public DataQuestion(Long id,String allPossibleAnswers, String question, DataQuestionType questionType,Long ects) {
             this.id=id;
             this.allPossibleAnswers = allPossibleAnswers;
             this.question = question;
             this.questionType = questionType;
+            this.ects = ects;
         }
 
         public Long getId() {
@@ -155,6 +158,14 @@ public class GetFormByIDResponse extends Response {
 
         public void setQuestionType(DataQuestionType questionType) {
             this.questionType = questionType;
+        }
+
+        public Long getEcts() {
+            return ects;
+        }
+
+        public void setEcts(Long ects) {
+            this.ects = ects;
         }
     }
 

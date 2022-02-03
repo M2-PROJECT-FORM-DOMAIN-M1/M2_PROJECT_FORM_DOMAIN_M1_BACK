@@ -42,6 +42,7 @@ public class SuperAdminEditAndAddForm extends AbstractController {
                 .filter(i -> superAdminEditAndAddFormToUsersRequest.getForm().getId().equals(finalUsers.getForms().get(i).getId()))
                 .findFirst().orElseThrow();
 
+        superAdminEditAndAddFormToUsersRequest.getForm().setUsers(users);
         users.getForms().set(indexOpt,superAdminEditAndAddFormToUsersRequest.getForm());
 
         usersRepository.save(users);

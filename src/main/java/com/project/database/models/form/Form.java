@@ -1,6 +1,9 @@
 package com.project.database.models.form;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.database.models.question.Question;
+import com.project.database.models.users.Users;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,9 +23,22 @@ public class Form {
     @Column(name = "isLock", nullable = false)
     private Boolean isLock = true;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.ALL },orphanRemoval=true)
-    @JoinColumn
+    @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.ALL },mappedBy = "form",orphanRemoval = true)
+    @JsonManagedReference
     private List<Question> questions = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id")
+    @JsonBackReference
+    private Users users;
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
 
     public List<Question> getQuestions() {
         return questions;

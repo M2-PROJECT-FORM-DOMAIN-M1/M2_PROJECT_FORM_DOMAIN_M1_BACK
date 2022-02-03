@@ -1,23 +1,21 @@
 package com.project.database.repository;
 
 
-
 import com.project.database.enums.QuestionTypeEnum;
 import com.project.database.enums.RoleNameEnum;
 import com.project.database.models.form.Form;
-import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.question.Question;
+import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.role.Role;
 import com.project.database.models.users.Users;
 import com.project.database.repository.form.IFormRepository;
-import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.question.IQuestionRepository;
+import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -68,7 +66,7 @@ public class RepositoryAbstractTestCase {
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
-                null
+                null,0L
         ));
 
 

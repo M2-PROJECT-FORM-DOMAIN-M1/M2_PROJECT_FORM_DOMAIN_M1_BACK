@@ -1,8 +1,10 @@
 package com.project.database.models.answers;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.database.models.question.Question;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -13,20 +15,27 @@ public class Answers {
     private Long id;
 
     @NotBlank
-    @Size(max = 40)
-    private String email;
+    @Email
+    private String mail;
 
     @NotBlank
     @Size(max = 80)
     private String answer;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "question_id")
+    @JsonBackReference
     private Question question;
 
-    public Answers(Long id, String email, String answer) {
+    public Answers(String mail, String answer, Question question) {
+        this.mail = mail;
+        this.answer = answer;
+        this.question = question;
+    }
+
+    public Answers(Long id, String mail, String answer) {
         this.id = id;
-        this.email = email;
+        this.mail = mail;
         this.answer = answer;
     }
 
@@ -50,12 +59,12 @@ public class Answers {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getAnswer() {
