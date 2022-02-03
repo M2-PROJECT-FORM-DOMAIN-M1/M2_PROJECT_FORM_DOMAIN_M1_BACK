@@ -11,6 +11,7 @@ import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
 import io.jsonwebtoken.lang.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -18,14 +19,11 @@ import java.util.List;
 
 public class RepositoryUserTestCase extends RepositoryAbstractTestCase {
 
-
+    @Autowired
     IUsersRepository usersRepository;
 
 
 
-    public RepositoryUserTestCase(GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IUsersRepository usersRepository, IQuestionTypeRepository formTypeRepository, PasswordEncoder passwordEncoder) {
-        super(generateSaltString, questionRepository, formRepository, roleRepository, usersRepository, formTypeRepository, passwordEncoder);
-    }
 
     @Test
     public void findByEmailOrNameOrUsername(){

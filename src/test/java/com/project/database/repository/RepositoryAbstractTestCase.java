@@ -16,6 +16,7 @@ import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,59 +29,78 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RepositoryAbstractTestCase {
 
+    @Autowired
     protected GenerateSaltStringService generateSaltString;
-
+    @Autowired
     protected IQuestionRepository questionRepository;
-
+    @Autowired
     protected IFormRepository formRepository;
-
+    @Autowired
     protected IRoleRepository roleRepository;
-
+    @Autowired
     protected IUsersRepository usersRepository;
-
+    @Autowired
     protected IQuestionTypeRepository formTypeRepository;
-
+    @Autowired
     protected PasswordEncoder passwordEncoder;
 
-    public RepositoryAbstractTestCase(GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IUsersRepository usersRepository, IQuestionTypeRepository formTypeRepository, PasswordEncoder passwordEncoder) {
-        this.generateSaltString = generateSaltString;
-        this.questionRepository = questionRepository;
-        this.formRepository = formRepository;
-        this.roleRepository = roleRepository;
-        this.usersRepository = usersRepository;
-        this.formTypeRepository = formTypeRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+
 
     @Before
     public void insertData(){
 
-        roleRepository.deleteAll();
+
         usersRepository.deleteAll();
 
         List<QuestionType> questionTypes = new ArrayList<>();
-        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX,"CheckBox"));
-        formTypeRepository.saveAll(questionTypes);
+        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX, "CheckBox"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.RADIO, "Radio"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.TEXTINPUT, "Text input"));
+
+
 
         List<Question> questions = new ArrayList<>();
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
                 null,0L
+
         ));
 
 
-        questionRepository.saveAll(questions);
+        questions.add(new Question("c;b;a",
+                "Where is the way",
+                questionTypes.get(1),
+                null,5L
 
-        Form form = new Form("Ton prénom",generateSaltString.getSaltString(5),questions);
-        formRepository.save(form);
+        ));
+
+        questions.add(new Question("g;zeze;aazazaz",
+                "Where is the second way",
+                questionTypes.get(2),
+                null,0L
+
+        ));
+
+        questions.add(new Question("g;zeze;aazazaz",
+                "az",
+                questionTypes.get(0),
+                null,0L
+
+        ));
 
 
+        Form form = new Form("Ton prénom", "aaaaa", new ArrayList<>(questions));
+        form.setLock(false);
+
+        for (Question question : questions) {
+            question.setForm(form);
+        }
         List<Role> roleList = new ArrayList<>();
         roleList.add(new Role(RoleNameEnum.ROLE_ADMIN));
         roleList.add(new Role(RoleNameEnum.ROLE_SUPER_ADMIN));
+        roleRepository.deleteAll();
         roleRepository.saveAll(roleList);
-
 
         Users admin = new Users("admin",
                 "admin",
@@ -92,7 +112,6 @@ public class RepositoryAbstractTestCase {
         admin.setForms(Arrays.asList(form));
 
 
-        usersRepository.save(admin);
 
         usersRepository.save(new Users("superAdmin",
                 "superAdmin",
