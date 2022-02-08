@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface IAnswersRepository extends JpaRepository<Answers, Long> {
 
-    Boolean existsByMail(String mail);
+    @Query("select new java.lang.Boolean(count(*) > 0) from Answers item where item.question.id IN :idsQuestion and item.mail = :email")
+    Boolean getAlreadyAnswers(@Param("idsQuestion") List<Long> idsQuestion,@Param("email") String email);
 
     @Query("select item from Answers item where item.question.id IN :idsQuestion and item.mail = :email")
     List<Answers> getAnswersSavedPerUsers(@Param("idsQuestion") List<Long> idsQuestion, @Param("email") String email);
