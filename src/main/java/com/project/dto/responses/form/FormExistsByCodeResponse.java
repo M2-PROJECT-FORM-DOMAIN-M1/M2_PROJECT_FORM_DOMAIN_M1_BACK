@@ -4,6 +4,7 @@ import com.project.dto.responses.Response;
 
 public class FormExistsByCodeResponse extends Response {
     Boolean exist;
+    Boolean isLock;
 
     public Boolean getExist() {
         return exist;
@@ -13,8 +14,18 @@ public class FormExistsByCodeResponse extends Response {
         this.exist = exist;
     }
 
-    public FormExistsByCodeResponse(Boolean success, String message, Boolean isFormExist) {
+    public Boolean getLock() {
+        return isLock;
+    }
+
+    public void setLock(Boolean lock) {
+        isLock = lock;
+    }
+
+    public FormExistsByCodeResponse(Boolean success, String message, Boolean isFormExist, Boolean isLock) {
         super(success, message);
         this.exist=isFormExist;
+        this.isLock=isLock;
     }
+
 }

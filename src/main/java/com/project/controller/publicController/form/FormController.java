@@ -1,5 +1,6 @@
 package com.project.controller.publicController.form;
 
+import com.project.controller.AbstractController;
 import com.project.database.models.form.Form;
 import com.project.database.repository.form.IFormRepository;
 import com.project.dto.requests.form.GetFormByCodeRequest;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @Controller
-public class FormController {
+public class FormController extends AbstractController {
 
 
     IFormRepository formRepository;
@@ -44,8 +45,10 @@ public class FormController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(298).body(new Response(false, "error checking if form exist by code"));
         }
-        Boolean isFormExist = formRepository.existsByCode(getFormByCodeRequest.getCode());
-        return ResponseEntity.status(200).body(new FormExistsByCodeResponse(true, "form by code", isFormExist));
+        Form form = formRepository.findByCode(getFormByCodeRequest.getCode()).orElse(null);
+
+        return ResponseEntity.status(200).body(new FormExistsByCodeResponse(true, "form by code", form != null,form != null ? form.getLock() : false));
+
 
     }
 
