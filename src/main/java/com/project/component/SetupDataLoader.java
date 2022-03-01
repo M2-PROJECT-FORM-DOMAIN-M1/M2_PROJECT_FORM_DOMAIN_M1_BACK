@@ -3,6 +3,7 @@ package com.project.component;
 
 import com.project.database.enums.QuestionTypeEnum;
 import com.project.database.enums.RoleNameEnum;
+import com.project.database.models.answers.Answers;
 import com.project.database.models.form.Form;
 import com.project.database.models.question.Question;
 import com.project.database.models.questionType.QuestionType;
@@ -15,6 +16,7 @@ import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.role.IRoleRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,28 +73,99 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 
 
+        List<Answers> answersQuestion1 = new ArrayList<>();
+        List<Answers> answersQuestion2 = new ArrayList<>();
+
+        List<Answers> answersQuestion3 = new ArrayList<>();
+
+        answersQuestion1.add(new Answers(
+                "a@a.com",
+                "a",
+                null
+        ));
+
+        answersQuestion1.add(new Answers(
+                "a@a.com",
+                "a;z",
+                null
+        ));
+
+        answersQuestion1.add(new Answers(
+                "b@b.com",
+                "b",
+                null
+        ));
+
+        answersQuestion1.add(new Answers(
+                "c@b.com",
+                "c",
+                null
+        ));
+
+        answersQuestion2.add(new Answers(
+                "a@a.com",
+                "test",
+                null
+        ));
+
+        answersQuestion2.add(new Answers(
+                "b@b.com",
+                "test",
+                null
+        ));
+
+        answersQuestion2.add(new Answers(
+                "d@d.com",
+                "test",
+                null
+        ));
+
+
+
+        for(int i = 0 ; i < 10 ; i++){
+            answersQuestion3.add(new Answers(
+                    RandomStringUtils.randomAlphabetic(10),
+           RandomStringUtils.randomAlphabetic(5),
+                    null
+            ));
+        }
+
+
+
+
         List<Question> questions = new ArrayList<>();
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
-                null,0L
+                answersQuestion1,0L
 
         ));
 
+        for (Answers answers1 : answersQuestion1){
+            answers1.setQuestion(questions.get(0));
+        }
 
         questions.add(new Question("c;b;a",
                 "Where is the way",
                 questionTypes.get(1),
-                null,5L
+                answersQuestion2,5L
 
         ));
+
+        for (Answers answers1 : answersQuestion2){
+            answers1.setQuestion(questions.get(1));
+        }
 
         questions.add(new Question("g;zeze;aazazaz",
                 "Where is the second way",
                 questionTypes.get(2),
-                null,0L
+                answersQuestion3,0L
 
         ));
+
+        for (Answers answers1 : answersQuestion3){
+            answers1.setQuestion(questions.get(2));
+        }
 
         questions.add(new Question("g;zeze;aazazaz",
                 "az",

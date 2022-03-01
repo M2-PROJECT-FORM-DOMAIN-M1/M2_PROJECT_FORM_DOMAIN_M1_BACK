@@ -1,4 +1,4 @@
-package com.project.controller.answer;
+package com.project.controller.publicController.answer;
 
 import com.project.controller.AbstractController;
 import com.project.database.models.answers.Answers;
@@ -55,8 +55,9 @@ public class AnswerController extends AbstractController {
             return ResponseEntity.status(299).body(new Response(false, "invalid token"));
         }
 
-
-        if (answersRepository.existsByMail(userAzure.getMail())) {
+        Form form = formRepository.findByCode(sendAnswerRequest.getCode()).orElseThrow();
+        List<Long> ids = form.getQuestions().stream().map((Question::getId)).collect(Collectors.toList());
+        if (answersRepository.getAlreadyAnswers(ids,userAzure.getMail())) {
             return ResponseEntity.status(299).body(new Response(false, "you have already answered to this form"));
         } else {
             for (SendAnswerRequest.Data data : sendAnswerRequest.getAnswers()) {

@@ -66,7 +66,6 @@ public class AuthController extends AbstractController {
         users.setPassword("");
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, users));
 
-
     }
 
     @PostMapping("/auth/isConnected")

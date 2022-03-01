@@ -7,6 +7,11 @@ public class SendAnswerRequest {
     String email;
     String token;
     List<Data> answers;
+    String code;
+
+    public String getCode() {
+        return code;
+    }
 
     public String getEmail() {
         return email;
