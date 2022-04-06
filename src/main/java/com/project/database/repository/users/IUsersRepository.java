@@ -26,6 +26,9 @@ public interface IUsersRepository extends JpaRepository<Users, Long> {
 
     Boolean existsByEmail(String email);
 
+
+    List<Users> findAllByRoleName(RoleNameEnum role);
+
     @Query("SELECT u FROM Users  u WHERE u.role.name = ?1 and (u.name LIKE CONCAT('%',?2,'%') or u.email LIKE CONCAT('%',?3,'%') or u.username LIKE CONCAT('%',?4,'%')) ")
     Optional<List<Users>> findTop5ByRoleIsAndEmailContainsOrNameContainsOrUsernameContains( RoleNameEnum role, String email, String name, String username);
 

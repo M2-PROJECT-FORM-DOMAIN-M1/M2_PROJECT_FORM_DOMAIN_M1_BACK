@@ -188,5 +188,3 @@ hs_err_pid*
 .env
 create.sql
 sql-create.sql
-
-package-lock.json
