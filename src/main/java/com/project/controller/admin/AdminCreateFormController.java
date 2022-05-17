@@ -1,4 +1,4 @@
-package com.project.controller.superAdmin;
+package com.project.controller.admin;
 
 import com.project.controller.AbstractController;
 import com.project.database.models.form.Form;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @Controller
-public class SuperAdminCreateForm extends AbstractController {
+public class AdminCreateFormController extends AbstractController {
 
     GenerateSaltStringService generateSaltString;
 
@@ -30,13 +30,13 @@ public class SuperAdminCreateForm extends AbstractController {
     IUsersRepository usersRepository;
 
 
-    public SuperAdminCreateForm(GenerateSaltStringService generateSaltString, IFormRepository formRepository, IUsersRepository usersRepository) {
+    public AdminCreateFormController(GenerateSaltStringService generateSaltString, IFormRepository formRepository, IUsersRepository usersRepository) {
         this.generateSaltString = generateSaltString;
         this.formRepository = formRepository;
         this.usersRepository = usersRepository;
     }
 
-    @PostMapping("/createForm")
+    @PostMapping("/admin/createForm")
     public ResponseEntity adminLock(@Valid @RequestBody CreateFormRequest createFormRequest, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){

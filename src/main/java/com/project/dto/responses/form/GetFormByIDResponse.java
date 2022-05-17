@@ -104,8 +104,10 @@ public class GetFormByIDResponse extends Response {
                                 question.getId(),
                                 question.getAllPossibleAnswers(),
                                 question.getQuestion(),
-                                dataQuestionType,
-                                question.getEcts()
+                                question.getEcts(),
+                                question.getAbstractID(),
+                                dataQuestionType
+
                         )
                 );
             }
@@ -117,15 +119,25 @@ public class GetFormByIDResponse extends Response {
         private String allPossibleAnswers;
         private String question;
         private Long ects;
+        private Long abstractID;
         private DataQuestionType questionType;
 
 
-        public DataQuestion(Long id,String allPossibleAnswers, String question, DataQuestionType questionType,Long ects) {
-            this.id=id;
+        public DataQuestion(Long id, String allPossibleAnswers, String question, Long ects, Long abstractID, DataQuestionType questionType) {
+            this.id = id;
             this.allPossibleAnswers = allPossibleAnswers;
             this.question = question;
-            this.questionType = questionType;
             this.ects = ects;
+            this.abstractID = abstractID;
+            this.questionType = questionType;
+        }
+
+        public Long getAbstractID() {
+            return abstractID;
+        }
+
+        public void setAbstractID(Long abstractID) {
+            this.abstractID = abstractID;
         }
 
         public Long getId() {

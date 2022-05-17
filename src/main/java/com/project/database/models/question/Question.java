@@ -28,6 +28,8 @@ public class Question {
 
     private Long ects = 0L;
 
+    private Long abstractID;
+
     @OneToOne
     @JsonProperty(required = true)
     private QuestionType questionType;
@@ -67,7 +69,7 @@ public class Question {
     }
 
 
-    public Question(String allPossibleAnswers, String question, QuestionType questionType, List<Answers> answers,Long ects) {
+    public Question(String allPossibleAnswers, String question, QuestionType questionType, List<Answers> answers, Long ects) {
         this.allPossibleAnswers = allPossibleAnswers;
         this.question = question;
         this.questionType = questionType;
@@ -135,5 +137,13 @@ public class Question {
 
     public void setQuestionType(QuestionType questionType) {
         this.questionType = questionType;
+    }
+
+    public Long getAbstractID() {
+        return abstractID;
+    }
+
+    public void setAbstractID(Long abstractID) {
+        this.abstractID = abstractID;
     }
 }
