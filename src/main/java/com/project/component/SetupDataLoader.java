@@ -3,17 +3,20 @@ package com.project.component;
 
 import com.project.database.enums.QuestionTypeEnum;
 import com.project.database.enums.RoleNameEnum;
+import com.project.database.enums.RulesTypeEnum;
 import com.project.database.models.answers.Answers;
 import com.project.database.models.form.Form;
 import com.project.database.models.question.Question;
 import com.project.database.models.questionType.QuestionType;
 import com.project.database.models.role.Role;
+import com.project.database.models.rulesType.RulesType;
 import com.project.database.models.users.Users;
 import com.project.database.repository.answers.IAnswersRepository;
 import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.question.IQuestionRepository;
 import com.project.database.repository.questionType.IQuestionTypeRepository;
 import com.project.database.repository.role.IRoleRepository;
+import com.project.database.repository.rulesType.IRulesTypeRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.service.GenerateSaltStringService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -47,7 +50,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     PasswordEncoder passwordEncoder;
 
-    public SetupDataLoader(IAnswersRepository answersRepository, GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IQuestionTypeRepository formTypeRepository, IUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    IRulesTypeRepository rulesTypeRepository;
+
+    public SetupDataLoader(IRulesTypeRepository rulesTypeRepository, IAnswersRepository answersRepository, GenerateSaltStringService generateSaltString, IQuestionRepository questionRepository, IFormRepository formRepository, IRoleRepository roleRepository, IQuestionTypeRepository formTypeRepository, IUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.alreadySetup = alreadySetup;
         this.generateSaltString = generateSaltString;
         this.questionRepository = questionRepository;
@@ -57,6 +62,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.answersRepository = answersRepository;
+        this.rulesTypeRepository=rulesTypeRepository;
     }
 
     @Override
@@ -71,6 +77,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         questionTypes.add(new QuestionType(QuestionTypeEnum.TEXTINPUT, "Text input"));
         formTypeRepository.saveAll(questionTypes);
 
+
+        List<RulesType> rulesTypes = new ArrayList<>();
+        rulesTypes.add(new RulesType(RulesTypeEnum.AT_LEAST_ONE, "at least one"));
+        rulesTypes.add(new RulesType(RulesTypeEnum.FILLED, "filled"));
+        rulesTypes.add(new RulesType(RulesTypeEnum.ONE_VALUE_FILLED, "one value is answered"));
+        rulesTypeRepository.saveAll(rulesTypes);
 
 
         List<Answers> answersQuestion1 = new ArrayList<>();
@@ -137,8 +149,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
-                answersQuestion1,0L
-
+                answersQuestion1,0L,
+                0L
         ));
 
         for (Answers answers1 : answersQuestion1){
@@ -148,7 +160,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         questions.add(new Question("c;b;a",
                 "Where is the way",
                 questionTypes.get(1),
-                answersQuestion2,5L
+                answersQuestion2,5L,1L
 
         ));
 
@@ -159,7 +171,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         questions.add(new Question("g;zeze;aazazaz",
                 "Where is the second way",
                 questionTypes.get(2),
-                answersQuestion3,0L
+                answersQuestion3,0L,2L
 
         ));
 
@@ -170,7 +182,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         questions.add(new Question("g;zeze;aazazaz",
                 "az",
                 questionTypes.get(0),
-                null,0L
+                null,0L,3L
 
         ));
 

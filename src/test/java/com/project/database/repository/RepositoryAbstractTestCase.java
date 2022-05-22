@@ -63,7 +63,7 @@ public class RepositoryAbstractTestCase {
         questions.add(new Question("Flo;Alex;Quentin",
                 "Quel est ton prénom",
                 questionTypes.get(0),
-                null,0L
+                null,0L,0L
 
         ));
 
@@ -71,21 +71,21 @@ public class RepositoryAbstractTestCase {
         questions.add(new Question("c;b;a",
                 "Where is the way",
                 questionTypes.get(1),
-                null,5L
+                null,5L,1L
 
         ));
 
         questions.add(new Question("g;zeze;aazazaz",
                 "Where is the second way",
                 questionTypes.get(2),
-                null,0L
+                null,0L,3L
 
         ));
 
         questions.add(new Question("g;zeze;aazazaz",
                 "az",
                 questionTypes.get(0),
-                null,0L
+                null,0L,4L
 
         ));
 

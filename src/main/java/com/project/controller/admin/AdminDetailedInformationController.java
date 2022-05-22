@@ -2,16 +2,11 @@ package com.project.controller.admin;
 
 import com.project.controller.AbstractController;
 import com.project.database.models.form.Form;
-import com.project.database.models.users.Users;
 import com.project.database.repository.form.IFormRepository;
 import com.project.database.repository.users.IUsersRepository;
 import com.project.dto.requests.admin.AdminAdminLockRequest;
 import com.project.dto.requests.admin.AdminDeleteFormRequest;
-import com.project.dto.requests.common.IdRequest;
-import com.project.dto.requests.superAdmin.SuperAdminAdminLockRequest;
-import com.project.dto.requests.superAdmin.SuperAdminDeleteFormRequest;
 import com.project.dto.responses.Response;
-import com.project.dto.responses.superAdmin.SuperAdminAdminGetAdminResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

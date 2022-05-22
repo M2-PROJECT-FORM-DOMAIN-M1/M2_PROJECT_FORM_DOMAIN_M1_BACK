@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.database.models.answers.Answers;
 import com.project.database.models.form.Form;
 import com.project.database.models.questionType.QuestionType;
+import com.project.database.models.rules.Rules;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,6 +30,10 @@ public class Question {
     private Long ects = 0L;
 
     private Long abstractID;
+
+    @OneToOne
+    @JsonProperty(required = true)
+    private Rules rules;
 
     @OneToOne
     @JsonProperty(required = true)
@@ -69,12 +74,13 @@ public class Question {
     }
 
 
-    public Question(String allPossibleAnswers, String question, QuestionType questionType, List<Answers> answers, Long ects) {
+    public Question(String allPossibleAnswers, String question, QuestionType questionType, List<Answers> answers, Long ects,Long abstractID) {
         this.allPossibleAnswers = allPossibleAnswers;
         this.question = question;
         this.questionType = questionType;
         this.answers = answers;
         this.ects = ects;
+        this.abstractID=abstractID;
     }
 
 

@@ -4,9 +4,6 @@ import com.project.database.models.form.Form;
 import com.project.database.models.users.Users;
 import com.project.dto.responses.Response;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 public class SuperAdminAdminGetAdminResponse extends Response {
 
     private Users user;
