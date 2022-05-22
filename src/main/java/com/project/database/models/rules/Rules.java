@@ -20,6 +20,8 @@ public class Rules {
     @NotEmpty
     private Long abstractID;
 
+    String specifiedValue;
+
     @OneToOne
     @JsonProperty(required = true)
     private RulesType rulesType;
@@ -33,4 +35,51 @@ public class Rules {
     private Instant updatedAt;
 
 
+    public String getSpecifiedValue() {
+        return specifiedValue;
+    }
+
+    public void setSpecifiedValue(String specifiedValue) {
+        this.specifiedValue = specifiedValue;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAbstractID() {
+        return abstractID;
+    }
+
+    public void setAbstractID(Long abstractID) {
+        this.abstractID = abstractID;
+    }
+
+    public RulesType getRulesType() {
+        return rulesType;
+    }
+
+    public void setRulesType(RulesType rulesType) {
+        this.rulesType = rulesType;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

@@ -1,10 +1,16 @@
 package com.project.dto.responses.form;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.database.enums.QuestionTypeEnum;
+import com.project.database.enums.RulesTypeEnum;
 import com.project.database.models.form.Form;
 import com.project.database.models.question.Question;
+import com.project.database.models.rulesType.RulesType;
 import com.project.dto.responses.Response;
+import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +105,24 @@ public class GetFormByIDResponse extends Response {
                         question.getQuestionType().getQuestionType()
                 );
 
+                DataRules dataRules= null;
+
+                if(question.getRules() != null){
+                    DataRulesType dataRulesType = new DataRulesType(
+                            question.getRules().getRulesType().getId(),
+                            question.getRules().getRulesType().getRulesTypeEnum(),
+                            question.getRules().getRulesType().getRulesTypeRenderText()
+                    );
+
+                    dataRules = new DataRules(
+                            question.getRules().getId(),
+                            question.getRules().getAbstractID(),
+                            dataRulesType
+                    );
+                }
+
+
+
                 questions.add(
                         new DataQuestion(
                                 question.getId(),
@@ -106,7 +130,8 @@ public class GetFormByIDResponse extends Response {
                                 question.getQuestion(),
                                 question.getEcts(),
                                 question.getAbstractID(),
-                                dataQuestionType
+                                dataQuestionType,
+                                dataRules
 
                         )
                 );
@@ -120,16 +145,28 @@ public class GetFormByIDResponse extends Response {
         private String question;
         private Long ects;
         private Long abstractID;
+        private DataRules rules;
         private DataQuestionType questionType;
 
 
-        public DataQuestion(Long id, String allPossibleAnswers, String question, Long ects, Long abstractID, DataQuestionType questionType) {
+
+        public DataQuestion(Long id, String allPossibleAnswers, String question, Long ects, Long abstractID, DataQuestionType questionType,DataRules rules) {
             this.id = id;
             this.allPossibleAnswers = allPossibleAnswers;
             this.question = question;
             this.ects = ects;
             this.abstractID = abstractID;
             this.questionType = questionType;
+            this.rules = rules;
+
+        }
+
+        public DataRules getRules() {
+            return rules;
+        }
+
+        public void setRules(DataRules rules) {
+            this.rules = rules;
         }
 
         public Long getAbstractID() {
@@ -214,6 +251,80 @@ public class GetFormByIDResponse extends Response {
 
         public void setQuestionType(QuestionTypeEnum questionType) {
             this.questionType = questionType;
+        }
+    }
+
+    private class DataRules{
+
+        private Long id;
+        private Long abstractID;
+        private DataRulesType rulesType;
+
+        public DataRules(Long id, Long abstractID, DataRulesType datarulesType) {
+            this.id = id;
+            this.abstractID = abstractID;
+            rulesType = datarulesType;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Long getAbstractID() {
+            return abstractID;
+        }
+
+        public void setAbstractID(Long abstractID) {
+            this.abstractID = abstractID;
+        }
+
+        public DataRulesType getRulesType() {
+            return rulesType;
+        }
+
+        public void setRulesType(DataRulesType rulesType) {
+            this.rulesType = rulesType;
+        }
+    }
+
+    private class DataRulesType{
+
+        private Long id;
+        private RulesTypeEnum rulesTypeEnum;
+        private String rulesTypeRenderText;
+
+        public DataRulesType(Long id, RulesTypeEnum rulesTypeEnum, String rulesTypeRenderText) {
+            this.id = id;
+            this.rulesTypeEnum = rulesTypeEnum;
+            this.rulesTypeRenderText = rulesTypeRenderText;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public RulesTypeEnum getRulesTypeEnum() {
+            return rulesTypeEnum;
+        }
+
+        public void setRulesTypeEnum(RulesTypeEnum rulesTypeEnum) {
+            this.rulesTypeEnum = rulesTypeEnum;
+        }
+
+        public String getRulesTypeRenderText() {
+            return rulesTypeRenderText;
+        }
+
+        public void setRulesTypeRenderText(String rulesTypeRenderText) {
+            this.rulesTypeRenderText = rulesTypeRenderText;
         }
     }
 }

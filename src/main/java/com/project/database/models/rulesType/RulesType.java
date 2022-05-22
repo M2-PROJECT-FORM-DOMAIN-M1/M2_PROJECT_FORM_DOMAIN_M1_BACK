@@ -13,12 +13,15 @@ public class RulesType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 60)
     private RulesTypeEnum rulesTypeEnum;
 
     private String rulesTypeRenderText;
+
+
 
     public RulesType() {
     }
@@ -27,6 +30,8 @@ public class RulesType {
         this.rulesTypeEnum = rulesTypeEnum;
         this.rulesTypeRenderText = rulesTypeRenderText;
     }
+
+
 
     public Long getId() {
         return id;

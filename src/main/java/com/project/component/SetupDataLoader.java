@@ -81,7 +81,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         List<RulesType> rulesTypes = new ArrayList<>();
         rulesTypes.add(new RulesType(RulesTypeEnum.AT_LEAST_ONE, "at least one"));
         rulesTypes.add(new RulesType(RulesTypeEnum.FILLED, "filled"));
-        rulesTypes.add(new RulesType(RulesTypeEnum.ONE_VALUE_FILLED, "one value is answered"));
+        rulesTypes.add(new RulesType(RulesTypeEnum.SPECIFIED_VALUE, "specified value(s)"));
         rulesTypeRepository.saveAll(rulesTypes);
 
 

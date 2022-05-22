@@ -31,7 +31,7 @@ public class Question {
 
     private Long abstractID;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JsonProperty(required = true)
     private Rules rules;
 
@@ -151,5 +151,13 @@ public class Question {
 
     public void setAbstractID(Long abstractID) {
         this.abstractID = abstractID;
+    }
+
+    public Rules getRules() {
+        return rules;
+    }
+
+    public void setRules(Rules rules) {
+        this.rules = rules;
     }
 }
