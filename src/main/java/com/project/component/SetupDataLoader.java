@@ -72,9 +72,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 
         List<QuestionType> questionTypes = new ArrayList<>();
-        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX, "CheckBox"));
-        questionTypes.add(new QuestionType(QuestionTypeEnum.RADIO, "Radio"));
-        questionTypes.add(new QuestionType(QuestionTypeEnum.TEXTINPUT, "Text input"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.CHECKBOX, "Multiple choices"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.RADIO, "Unique choice"));
+        questionTypes.add(new QuestionType(QuestionTypeEnum.TEXTINPUT, "Open question"));
         formTypeRepository.saveAll(questionTypes);
 
 
