@@ -117,7 +117,8 @@ public class GetFormByIDResponse extends Response {
                     dataRules = new DataRules(
                             question.getRules().getId(),
                             question.getRules().getAbstractID(),
-                            dataRulesType
+                            dataRulesType,
+                            question.getRules().getSpecifiedValue()
                     );
                 }
 
@@ -259,11 +260,14 @@ public class GetFormByIDResponse extends Response {
         private Long id;
         private Long abstractID;
         private DataRulesType rulesType;
+        private String specifiedValue;
 
-        public DataRules(Long id, Long abstractID, DataRulesType datarulesType) {
+
+        public DataRules(Long id, Long abstractID, DataRulesType datarulesType,String specifiedValue) {
             this.id = id;
             this.abstractID = abstractID;
-            rulesType = datarulesType;
+            this.rulesType = datarulesType;
+            this.specifiedValue=specifiedValue;
         }
 
         public Long getId() {
@@ -288,6 +292,14 @@ public class GetFormByIDResponse extends Response {
 
         public void setRulesType(DataRulesType rulesType) {
             this.rulesType = rulesType;
+        }
+
+        public String getSpecifiedValue() {
+            return specifiedValue;
+        }
+
+        public void setSpecifiedValue(String specifiedValue) {
+            this.specifiedValue = specifiedValue;
         }
     }
 
