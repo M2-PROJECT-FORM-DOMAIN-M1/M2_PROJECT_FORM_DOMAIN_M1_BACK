@@ -132,7 +132,8 @@ public class GetFormByIDResponse extends Response {
                                 question.getEcts(),
                                 question.getAbstractID(),
                                 dataQuestionType,
-                                dataRules
+                                dataRules,
+                                question.getRequired()
 
                         )
                 );
@@ -145,13 +146,14 @@ public class GetFormByIDResponse extends Response {
         private String allPossibleAnswers;
         private String question;
         private Long ects;
+        private Boolean required;
         private Long abstractID;
         private DataRules rules;
         private DataQuestionType questionType;
 
 
 
-        public DataQuestion(Long id, String allPossibleAnswers, String question, Long ects, Long abstractID, DataQuestionType questionType,DataRules rules) {
+        public DataQuestion(Long id, String allPossibleAnswers, String question, Long ects, Long abstractID, DataQuestionType questionType,DataRules rules,Boolean required) {
             this.id = id;
             this.allPossibleAnswers = allPossibleAnswers;
             this.question = question;
@@ -159,7 +161,15 @@ public class GetFormByIDResponse extends Response {
             this.abstractID = abstractID;
             this.questionType = questionType;
             this.rules = rules;
+            this.required = required;
+        }
 
+        public Boolean getRequired() {
+            return required;
+        }
+
+        public void setRequired(Boolean required) {
+            this.required = required;
         }
 
         public DataRules getRules() {

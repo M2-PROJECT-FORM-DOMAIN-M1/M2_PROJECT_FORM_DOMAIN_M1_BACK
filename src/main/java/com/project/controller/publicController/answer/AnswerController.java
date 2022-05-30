@@ -15,6 +15,9 @@ import com.project.models.UserAzure;
 import com.project.service.UserAzureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,13 +25,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+
 public class AnswerController extends AbstractController {
     private static final Logger logger = LoggerFactory.getLogger(AnswerController.class);
 
+
+    @Value("${test.mode}")
+    Boolean testMode;
 
     IQuestionRepository questionRepository;
 
@@ -48,6 +56,28 @@ public class AnswerController extends AbstractController {
 
     @PostMapping("/public/answer/sendAnswer")
     public ResponseEntity sendAnswer(@Valid @RequestBody SendAnswerRequest sendAnswerRequest, BindingResult bindingResult) {
+
+        if(Boolean.TRUE.equals(testMode)){
+            Form form = formRepository.findByCode(sendAnswerRequest.getCode()).orElseThrow();
+            List<Long> ids = form.getQuestions().stream().map((Question::getId)).collect(Collectors.toList());
+            for (SendAnswerRequest.Data data : sendAnswerRequest.getAnswers()) {
+                Question question = questionRepository.findById(data.getQuestion()).orElseThrow();
+                Answers answers = new Answers();
+                answers.setMail(sendAnswerRequest.getEmail());
+                answers.setAnswer(data.getAnswer());
+
+                List<Answers> answersList = question.getAnswers();
+                answersList.add(answers);
+
+                question.setAnswers(answersList);
+                answers.setQuestion(question);
+                questionRepository.save(question);
+
+                return ResponseEntity.status(200).body(new Response(true, "answer send"));
+
+            }
+        }
+
         UserAzure userAzure;
         try {
             userAzure = userAzureService.getUserAzure(sendAnswerRequest.getEmail(), sendAnswerRequest.getToken());
@@ -83,6 +113,10 @@ public class AnswerController extends AbstractController {
     public ResponseEntity getAnswerIfAlreadyAnswered(@Valid @RequestBody GetAnswersSavedPerUsersRequest getAnswersSavedPerUsersRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(298).body(new Response(false, "error checking if form is already answered"));
+        }
+
+        if(Boolean.TRUE.equals(testMode)){
+            return ResponseEntity.status(200).body(new GetAnswersSavedPerUsersResponse(true, "answers exist by mail", new ArrayList<>()));
         }
 
         UserAzure userAzure;

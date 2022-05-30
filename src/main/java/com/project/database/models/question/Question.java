@@ -29,6 +29,8 @@ public class Question {
 
     private Long ects = 0L;
 
+    private Boolean required = false;
+
     private Long abstractID;
 
     @OneToOne(cascade=CascadeType.ALL)
@@ -88,6 +90,13 @@ public class Question {
 
     }
 
+    public Boolean getRequired() {
+        return required;
+    }
+
+    public void setRequired(Boolean required) {
+        this.required = required;
+    }
 
     public Form getForm() {
         return form;

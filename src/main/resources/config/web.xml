@@ -8,7 +8,7 @@
         <property name="locations">
             <list>
                 <value>classpath:/properties/jwt.properties</value>
-
+                <value>classpath:/properties/answerForm.properties</value>
             </list>
         </property>
     </bean>
